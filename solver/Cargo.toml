@@ -1,0 +1,11 @@
+[package]
+name = "solver"
+version = "0.1.0"
+authors = ["Mihir Sathe <mihsathe@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+enigma = { path = "../enigma" }
+argparse = "0.2.2"

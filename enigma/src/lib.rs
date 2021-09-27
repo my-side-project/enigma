@@ -228,10 +228,44 @@ mod tests {
             }
 
             if i == 0 {
+                // Test with a known good emulator
                 assert_eq!(write_to, "OJWAHLFOZNXGNBBWWJTSSWCSHSYLZMTENWAMIMUGRTFFJMYNTQCNSJAKTUYJRDSCCOHEXERXDIGVQWAPABBBNUQMDNFJXKKOXSQM");
             }
         }
 
         println!("Test duration: {}ms", timer.elapsed().unwrap().as_millis());
+    }
+
+    #[test]
+    fn cipher_test() {
+        let rotor_indexes = [5u8, 0, 2];
+        let rotor_positions = [1u8, 1, 1];
+        let rotor_settings = [2u8, 5, 2];
+        let mut plugboard_mappings: HashMap<char, char> = HashMap::new();
+        plugboard_mappings.insert('B', 'Q');
+        plugboard_mappings.insert('C', 'R');
+        plugboard_mappings.insert('D', 'I');
+        plugboard_mappings.insert('E', 'J');
+        plugboard_mappings.insert('K', 'W');
+        plugboard_mappings.insert('M', 'T');
+        plugboard_mappings.insert('O', 'S');
+        plugboard_mappings.insert('P', 'X');
+        plugboard_mappings.insert('U', 'Z');
+        plugboard_mappings.insert('G', 'H');
+
+        let mut enigma = Enigma::new_enigma(rotor_indexes,
+                                            rotor_positions,
+                                            rotor_settings,
+                                            &plugboard_mappings,
+                                            'B');
+
+        let txt = "FVIHRWDTMUHGCXBIMZZEOGDFLJRYSQJDVVESLGZNLYYYDUJTLTAPPWRKWOWBECTXDHSSNCSBNWVXPXDKZVRFPMPTULAQUIWYBUPFLWMJLXNTQJLVRDDOKKUGTSXYMVDMSRDMMIUDSTUBEZOIWKESJLBDUPWPCQANRHHCWWCDOBBTBYPTCDNWDLWEQXDUDVGKNTQJYEWALZHORRNPZQFFPQLYMYLNYDWCQKXWLRTNVGGBBXDTCVKVGVCATUOXQMKRMWYVWIXGOGUMTXDBAPNEWOEAYFEDHMYAGOFKKJSDIVZHDOGAH";
+        let mut out_str = String::new();
+
+        for c in txt.chars() {
+            out_str.push(enigma.encrypt(c));
+        }
+
+        println!("{}", out_str);
     }
 }
